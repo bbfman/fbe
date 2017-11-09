@@ -1,0 +1,1 @@
+// last mod rp 20080601// AEDataModel.h// minimal; support NavDialog in FBtoC 1.1.1    rp 20080601toolbox fn AECoerceDesc( const AEDesc * theAEDesc, DescType toType, AEDesc * result) = OSErr_typeFSRef = _"fsrf"_kAEAlwaysInteract = 0x00000030// 20090803_kAEHighPriority = 0x00000001// 20090803

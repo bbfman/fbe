@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>FBtoC User Guide : HandleEvents</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;HandleEvents</font>
+<hr>
+
+<p>The default behaviour of HandleEvents is now to block (i.e. not return) until an event is dispatched. 
+<p>In FB4 the default behaviour was to return after every 2&nbsp;ticks (1&nbsp;tick = 1/60 s) even when no events occurred. In effect a steam of null events was generated 30 times a second, allowing polling but wasting CPU time.
+This (typically unwanted) activity could be suppressed by:
+<pre class="codeexample">
+poke long event - 8, 0xFFFFFFFF // no null events, thanks
+</pre>
+
+<p>In FB5/FBtoC it is no longer necessary to suppress null events in this way.
+
+<p>The old FB4 behaviour, if required, can be restored as shown: 
+<pre class="codeexample">
+poke long event - 8, 2 // null events every 2 ticks, like FB4
+do
+ fn PollRegularlyForSomething
+ HandleEvents
+until gFBQuit
+</pre>
+
+</body>
+</html>
+

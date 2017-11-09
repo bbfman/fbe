@@ -1,0 +1,11 @@
+void CA_SendStringToConsole(Str255 s$, Boolean newLine);
+void ConsoleAppPrintCR(void);
+void ConsoleAppPrintString(Str255 string$);
+void ConsoleAppPrintLong(const SInt64 theNumber);
+void ConsoleAppPrintFloat(const double theNumber);
+void ConsoleAppPrintSpc(long spc);
+void ConsoleAppPrintTab(long tabs);
+void ConsoleAppPrintCommaTabPosition(void);
+void ConsoleAppPrintContainer(Handle *ctnrVarPtr);
+void ConsoleAppInput( Str255  prompt, void *target, short varType );
+void ConsoleAppDebugPrintStackLevel(void);

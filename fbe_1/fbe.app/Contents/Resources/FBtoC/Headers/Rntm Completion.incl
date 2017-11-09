@@ -1,0 +1,1 @@
+// empty file. Used by FB but has no purpose in FBtoC.// Included in the FBtoC headers folder because FB project files// contain an "include Rntm Completion.incl". With it in the headers// the file is found and FBtoC is happy.// Brian 26-June-2007

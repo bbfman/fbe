@@ -1,0 +1,2 @@
+// **** TextField **** //
+textfield _txtFld,, @"Welcome to CocoaUI", ( 30, _wndH - 40, 240, 24 )

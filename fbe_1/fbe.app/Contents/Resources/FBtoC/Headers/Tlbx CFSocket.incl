@@ -1,0 +1,1 @@
+/*    part of CFSocket.h   20091001   Bernie Wylde*/#if ndef _DEFINEDINCARBON#define CFSocketNativeHandle as long#define CFSocketRef as pointerbegin record CFSocketSignaturedim as SInt32     protocolFamilydim as SInt32     socketTypedim as SInt32     protocoldim as CFDataRef  addressend record#endif // ndef _DEFINEDINCARBON

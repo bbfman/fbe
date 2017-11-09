@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>FBtoC User Guide : for / next</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;for / next</font>
+<hr>
+
+FBtoC corrects a design mistake in FB (apparently inherited from Applesoft BASIC) that made for/next loops always execute at least once. Compatibility with legacy FB code can be obtained by overriding a special predefined constant as shown below.
+<pre class="codeexample">
+dim as long  j
+for j = 1 to 0
+ print "Never get here"
+next
+
+override _forLoopsAlwaysExecuteAtLeastOnce = _true
+
+for j = 1 to 0
+ print "Get here" // legacy FB behavior
+next
+
+override _forLoopsAlwaysExecuteAtLeastOnce = _false
+
+for j = 1 to 0
+ print "Never get here"
+next
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+ // FBRuntime.incl, identical with ConsoleWindowinclude "Rntm Appearance.incl"#if ndef _FBtoCConsole_FBtoCConsole = 1 #endifinclude "FBtoCConsole.incl"begin globals#if def _FBUnixToolcompile shutdown "Can't be both Console app and Command-line tool"#endif//#if def _LP64//compile shutdown "Console app can't be 64-bit (-m64 option)"//#endif

@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>FBtoC User Guide : stringlist</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;stringlist</font>
+<hr>
+
+<p> The stringlist directives:
+<br>&nbsp;&nbsp;stringlist on
+<br>&nbsp;&nbsp;stringlist off
+<br>&nbsp;&nbsp;stringlist
+<br>control localizability of string literals (step 1 below). The default state is off.
+
+
+<p>A string literal will be localized if:
+<br>[1] it is encountered while stringlist is on
+<br>[2] a Localizable.strings file is present in the appropriate *.lproj folder of the app's internal folder hierarchy
+<br>[3] the file contains a key that matches the original string literal
+<br>[4] the value corresponding to the key has been edited to be localized.
+<br>otherwise the original unlocalized string is used.
+
+
+<p>A localizable string takes up more memory than a non-localizable one, and access to it is much slower. Recommended practice is to place each string (or group of strings) that you want localizable between 'stringlist on' and 'stringlist' directives: 
+
+<pre class="codeexample">
+stringlist on         // turn localizability on
+print "Hello, world!" // localizable
+stringlist            // revert to previous state
+plusSign$ = "+"       // not localizable
+</pre>
+
+<p>FBtoC's menu command 'File > Generate Localizable.strings' creates a file in the built_temp folder, with an entry for each localizable string. An entry consists of a comment (file: line) to assist the translator, followed by "key = "value"; 
+
+<pre class="codeexample">
+/* HelloWorld.bas: 4 */
+"Hello, world!" = "Hello, world!";
+</pre>
+
+<p>After editing the value for French.lproj:
+<pre class="codeexample">
+"Hello, world!" = "Bonjour, le monde!";
+</pre>
+
+<p>
+<br>See Apple documentation: <a href="http://developer.apple.com/documentation/MacOSX/Conceptual/BPInternational/BPInternational.html" target="blank">Internationalization Programming Topics</a>
+
+</body>
+</html>
+

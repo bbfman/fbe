@@ -1,0 +1,1 @@
+/*  SecureTextField.incl  Bernie Wylde 20170704  syntax:    securetextfield tag, enabled, text, rect, wndTag  See also:  TextField.incl*/// dialog events - see textfieldtoolbox SecureTextFieldSetEchosBullets( SInt32 tag, Boolean flag )

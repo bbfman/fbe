@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>FBtoC User Guide : dynamic</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;dynamic</font>
+<hr>
+
+<p><font class="subhead1">autoXREFCurr&</font>
+<br>To obtain the next index for a dynamic array:
+
+<pre class="codeexample">
+<b>begin globals</b>
+<b>dynamic</b> myDynArray(1000) <b>as long</b>
+<b>end globals</b>
+myDynArray(567) = 1
+<b>#if def</b> _FBTOC
+nextIndex = <b>fn</b> DynamicNextElement( <b>dynamic</b>( myDynArray ) ) // FBtoC syntax
+<b>#else</b>
+d<b>im as pointer</b> address
+address = @myDynArray               // FB...
+nextIndex = address.autoXREFCurr&   // ...syntax
+<b>#endif</b>
+// nextIndex is 568
+</pre>
+
+
+<pre>
+</pre>
+<p><font class="subhead1">def DynamicRemoveItems</font>
+<br>The syntax for FBtoC is different from FB.
+
+<pre class="codeexample">
+// Delete item 1 in dynamic array
+<b>#if ndef</b> _FBtoC
+<b>def DynamicRemoveItems</b>( gMyDynArray, 1, 1, 0 )            // FB syntax
+<b>#else</b>
+<b>def DynamicRemoveItems</b>( <b>dynamic</b>( gMyDynArray ), 1, 1, 0 ) // FBtoC syntax
+<b>#endif</b>
+</pre>
+
+<pre>
+</pre>
+<p><font class="subhead1">compress dynamic</font>
+<br>compress dynamic does nothing in OS X and is ignored by FBtoC.
+
+</body>
+</html>
+

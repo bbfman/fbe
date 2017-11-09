@@ -1,0 +1,39 @@
+
+body { margin-left:30px; margin-right:30px; margin-top:10px; font-family:sans-serif; font-size:13; font-weight:normal; color:black }
+table { font-family:sans-serif; font-size:13; color:black }
+
+a:link { color:blue; text-decoration: none }
+a:visited { color:blue; text-decoration: none }
+a:hover { color:#0079ad; text-decoration: underline }
+
+a.contents:link { color:blue; text-decoration: none }
+a.contents:visited { color:blue; text-decoration: none }
+a.contents:hover { color:#0079ad; text-decoration: underline }
+
+font.header { font-family:serif; font-size:24; font-weight:normal; color:#0079ad }
+font.contents { font-family:serif; font-size:16; font-weight:normal; color:black }
+font.subhead1 { font-family:sans-serif; font-size:15; font-weight:bold; color:black }
+font.box { font-family:sans-serif; font-size:12px; color:#000000; background-color:#ffffff; padding-top:8px; padding-right:8px; padding-bottom:8px; padding-left:8px; border: #000000; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; width:0 }
+
+/* code */
+pre.codeexample { font-family: Courier; font-size: 12px; color: #000000; background-color: #f5f7f9; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border: #c9d1d7; border-style: solid; border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; min-width:825px; width:auto }
+
+/* keyword support */
+p.outdent { font-family:sans-serif; font-weight:normal; font-size:14; color:black; text-indent:-10px }
+font.alpha { font-family:sans-serif; font-weight:bold; font-size:14; color:black; text-shadow:white 0px 0px 0px }
+font.never { font-family:sans-serif; font-weight:normal; font-size:14; color:red; text-shadow:white 0px 0px 0px }
+font.no { font-family:sans-serif; font-weight:normal; font-size:14; color:fuchsia; text-shadow:white 0px 0px 0px }
+font.diff { font-family:sans-serif; font-weight:normal; font-size:14; color:0079ad; text-shadow:white 0px 0px 0px }
+font.yes { font-family:sans-serif; font-weight:normal; font-size:14; color:black; text-shadow:white 0px 0px 0px }
+font.type { font-family:sans-serif; font-weight:normal; font-size:14; color:black; text-shadow:white 0px 0px 0px }
+font.diffkwheadertype { font-family:serif; font-size:18; font-weight:normal; color:#606060 }
+
+/* FBtoC Log */
+pre.log { font-family:monaco; font-size:10; font-weight:normal; color:#000000; padding-left:8px }
+pre.logerror { font-family:monaco; font-size:10; font-weight:normal; color:#ea0000; padding-left:8px }
+pre.logwarning { font-family:monaco; font-size:10; font-weight:normal; color:#9c5513; padding-left:8px }
+pre.logunix { font-family:monaco; font-size:10; font-weight:normal; color:#0000c3; padding-left:8px }
+pre.logdebug { font-family:monaco; font-size:10; font-weight:normal; color:#009c00d; padding-left:8px }
+pre.logmagenta { font-family:monaco; font-size:10; font-weight:normal; color:#bf00bf; padding-left:8px }
+
+

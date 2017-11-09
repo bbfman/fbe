@@ -1,0 +1,1 @@
+_wndRef  = _wndPointer_wndPort = 31include "Subs FBCarbonStubs.incl"begin enum //results of FinderInfo_finderInfoOpen_finderInfoPrint_finderInfoErrend enumtoolbox ClearFinderInfo // AppThings.c//toolbox fn FinderInfoFSRef( CFIndex *index, FSRef *ref, OSType *type ) = SInt32 // AppThings.c

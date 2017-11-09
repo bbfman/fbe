@@ -1,0 +1,1 @@
+// part of CGBase.h//#define FBtoC_single as single // prevent var suffix change // not needed rp 20090203#if ndef _DEFINEDINCARBON#define CGFloat as single#endif// _DEFINEDINCARBON

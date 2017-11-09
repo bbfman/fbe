@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>FBtoC User Guide : system [statement]</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;system</font> <font class="diffkwheadertype">[statement]</font>
+<hr>
+
+<p>system used to be a synonym for 'end'.
+
+Now it is used, mainly in Headers files, to declare macros and extern consts in Carbon or other frameworks.
+<p>
+Syntax:
+<br>
+system ExistingTypeName nameOfConstVarOrMacro
+<p>
+Examples from Headers:
+<br>
+system CFDictionaryKeyCallBacks kCFTypeDictionaryKeyCallBacks
+<br>
+system CFBooleanRef kCFBooleanTrue
+<br>
+system CFBooleanRef kCFBooleanFalse
+<p>
+Example:
+<pre class="codeexample">
+system double INFINITY
+print INFINITY
+stop
+</pre>
+</body>
+</html>
+

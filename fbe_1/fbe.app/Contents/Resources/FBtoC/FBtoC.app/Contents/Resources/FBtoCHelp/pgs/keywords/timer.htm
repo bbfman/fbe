@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>FBtoC User Guide : timer</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;on timer( expr ) fn DoTimer, timer = expr</font>
+<hr>
+
+<p>Fractional parts of expr are recognised.
+<p>An expr value of 0.0 disables the timer.
+<p>timer off and timer end are not implemented.
+<p>Timer firings are not queued; they are lost if your app does not handle events for times greater than expr.
+
+</body>
+</html>
+

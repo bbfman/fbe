@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>FBtoC User Guide : include</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;include</font>
+<hr>
+
+<p><font class="subhead1">FBtoC enhancements</font>
+
+<p><b>1. include</b> "SomeFile.someextension"
+<p>In general the file is treated as an FB source file.
+<p><b>1a. Special treatment for C source and C header files (*.c and *.h)</b>
+<p><b>include</b> "SomeFile.c"
+<br><b>include</b> "SomeFile.h"
+<p>Such files are copied to the build_temp folder. A #include statement is inserted in the translated FB code. This feature provides an alternative to #if def _PASSTHROUGHFUNCTION for mixing C with FB code.
+
+<p><b>1b. Special treatment for C static libraries (*.a)</b>
+<p><b>include</b> "MyLib.a"
+<p>The include statement copies the library file to the build_temp folder; you must also place the name of the library file in the preferences 'More compiler options' field [this causes it to be linked]. The example below is for a library MyLib that exports one symbol (MyLibFunction).
+<pre class="codeexample">
+<b>include</b> "MyLib.a"
+<b>BeginCDeclaration</b>
+// let the compiler know about the function
+void MyLibFunction( void ); // in lieu of .h file
+<b>EndC</b>
+<p>// let FBtoC know about the function
+<b>toolbox</b> MyLibFunction()
+MyLibFunction() // call the function
+</pre>
+
+
+<p><b>2. include resources</b> "SomeFile.someextension"
+<p>The file indicated is copied from the FB source folder to the application's Contents/Resources/ directory, unless the extension is .nib in which case it is copied to Contents/Resources/en.lproj/. 
+<p>This statement is the standard way to copy your sound (for example *.aiff), and image (for example *.icns) files into the application package. Nib files are handled by this statement, as an alternative to dragging them to your project window in FB5.
+
+
+<p><b>3. include library</b>
+<br>OS X frameworks may be specified with the 'include library' statement, which has two forms:
+
+<p><b>include library</b> "Framework/Header.h"
+<br><b>include library</b> "Framework" // optional short form, expanded internally to: include library "Framework/Framework.h"
+
+<pre class="codeexample">
+// tell the compiler the framework and header
+<b>include library</b> "AddressBook/AddressBookUI.h"
+// tell FBtoC the functions
+<b>toolbox fn</b> ABPickerCreate() = ABPickerRef
+...
+</pre>
+
+<p>The effect of 'include library' is to insert the appropriate #include preprocessor directive in the translated C file, and to pass the appropriate linker command to the compiler.
+
+<p>The QuickTime framework is #included and linked by default; your source code does not need  include library "QuickTime". 
+OpenGL is automatically #included and linked, if your project uses one of the relevant Headers files such as Tlbx gl.incl.
+<p>
+See Apple documentation: <a href="http://developer.apple.com/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SystemFrameworks/chapter_951_section_1.html" target="blank">Mac OS X Frameworks</a>
+
+
+</body>
+</html>
+

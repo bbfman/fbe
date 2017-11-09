@@ -1,0 +1,1 @@
+// small part of HIShape.h#if ndef _DEFINEDINCARBON#define HIShapeRef as pointer#define HIMutableShapeRef as HIShapeRef#endif// _DEFINEDINCARBON

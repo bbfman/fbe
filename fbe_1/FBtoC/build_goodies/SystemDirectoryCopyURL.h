@@ -1,0 +1,7 @@
+#ifndef SYSTEMDIRECTORYCOPYURL_INCL
+#define SYSTEMDIRECTORYCOPYURL_INCL
+
+CFURLRef SystemDirectoryCopyURL( UInt32 whichDirectory, SInt32 domain );
+
+
+#endif /* SYSTEMDIRECTORYCOPYURL_INCL */

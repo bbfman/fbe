@@ -1,0 +1,1 @@
+/*GET  PREFERENCES prefFileName$,prefRecordPUT  PREFERENCES prefFileName$,prefRecordKILL PREFERENCES prefFileName$MENU PREFERENCES menuID,itemIDsee FBtoC  *.c runtime:FBMenuPreferences()FBGetPreferences()FBKillPreferences()FBPutPreferences()*/

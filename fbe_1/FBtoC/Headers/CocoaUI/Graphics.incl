@@ -1,0 +1,1 @@
+/*  Graphics.incl  Bernie Wylde 20170919*/// type#if ndef _DEFINEDINCOCOA#define NSWindowOrderingMode as SInt32#endifsystem NSWindowOrderingMode NSWindowAbovesystem NSWindowOrderingMode NSWindowBelowsystem NSWindowOrderingMode NSWindowOuttoolbox fn GraphicsCurrentCGContext = CGContextRef

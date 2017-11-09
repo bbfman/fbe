@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>FBtoC User Guide : Settings</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Settings</font>
+<hr>
+
+<p> 
+
+<p><b>FBtoC Preferences Settings</b>
+<br>The Settings dialog is self-documenting by virtue of the titles, help tags, and grouping of the controls:
+<p><img src="../gfx/settings.jpg">
+
+<p><b>UserFloatPrefs settings</b>
+<br>The FB compiler reads a little-known file UserFloatPrefs (typically in User Libraries) to determine four settings. FBtoC does not attempt to read UserFloatPrefs. Of the four settings, only _RoundUpFloat2Long is supported in FBtoC. 
+<p><table>
+<tr><td width="300">_NumberLeadingSpace</td><td width="140">Not supported</td><td>always ON</td></tr>
+<tr><td>_FBAllowNAN</td><td>Not supported</td><td>always ON</td></tr>
+<tr><td>_RoundUpFloat2Long</td><td>Supported</td><td>initially OFF  &#134;</td></tr>
+<tr><td>_FBEnableMenuChoice</td><td>Irrelevant</td></tr>
+</table>
+
+
+<p>&#134; To force FBtoC to round conversions from float to integer, place this statement near the top of your code,  before any calculations:
+
+<pre class="codeexample">
+<b>override</b> _RoundUpFloat2Long = _true // float->int conversions, from here on, are rounded to nearest
+</pre>
+<p>FB takes no notice of this statement, because it has already determined the setting by reading UserFloatPrefs. Once rounding is enabled in a project, it cannot be turned off by further overriding _RoundUpFloat2Long; this behaviour matches FB.
+
+<p><b>Making a console application</b>
+<br>'ConsoleWindow' option <i>removed</i> in FB 5.7.102
+<br>To build a text-only console app, similar to FBtoC's Console, place this at the start of your code:
+
+<pre class="codeexample">
+<b>include</b> "ConsoleWindow"
+</pre>
+<p>In console mode, print commands are directed to a scrolling text window.
+
+<pre>
+
+
+
+</pre>
+
+</body>
+</html>
+
+
+

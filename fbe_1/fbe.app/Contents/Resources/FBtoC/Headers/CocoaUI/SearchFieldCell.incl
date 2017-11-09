@@ -1,0 +1,1 @@
+/*  SearchFieldCell.incl  Bernie Wylde 20171010  See also:  SearchField.incl*/system SInt32 NSSearchFieldRecentsTitleMenuItemTagsystem SInt32 NSSearchFieldRecentsMenuItemTagsystem SInt32 NSSearchFieldClearRecentsMenuItemTagsystem SInt32 NSSearchFieldNoRecentsMenuItemTag

@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>FBtoC User Guide : What is FBtoC?</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;What is FBtoC?</font>
+<hr>
+
+<p>FBtoC is a replacement for the old FB Compiler (FB Compiler.app). Translating the code to C allows Apple's developer tools to create a universal binary. The diagrams below illustrate the process:
+
+<p><b>FB Compiler</b>
+<pre>
+<p><font class="box">FB source code</font> ------> <font class="box">legacy app (PPC-only, CFM format, resource fork...)</font>
+
+</pre>
+
+<p><b>FBtoC</b>
+<pre>
+<p><font class="box">FB source code</font> ------> <font class="box">C source code</font> ------> <font class="box">OS X app package with Carbon universal binary in Mach-O format</font>
+
+</pre>
+
+Using FBtoC normally requires no detailed knowledge of C. 
+
+</body>
+</html>
+
+
+

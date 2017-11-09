@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>FBtoC User Guide : index$</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;index$</font>
+<hr>
+
+FBtoC requires a space between index$ and D or I
+
+<p>Bad:
+<pre class="codeexample">
+<b>index$</b>I(0) = "Yikes!"
+<b>index$</b>D(0)
+</pre>
+
+<p>Good:
+<pre class="codeexample">
+<b>index$</b> D(0)  // OK
+<b>index$</b> I(0)   // OK
+</pre>
+
+</body>
+</html>
+

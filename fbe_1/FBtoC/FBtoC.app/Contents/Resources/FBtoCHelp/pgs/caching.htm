@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>FBtoC User Guide : Caching by FBtoC's build system</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Caching by FBtoC's build system</font>
+<hr>
+
+<p>During compilation, FBtoC caches data in the source directory's build_temp folder. Reusing this data in subsequent builds allows some steps of compilation to be skipped. Builds subsequent to the first one are therefore faster. The caches affect the compilation phase only, not translation.
+<p>The caches are maintained as files in build_temp. If build_temp or its files are missing, FBtoC regenerates them. If you change certain critical FBtoC compilation settings, FBtoC invalidates the cached information, and regenerates it automatically during the next build.
+<p>FBtoC maintains two kinds of cached information.
+
+<p><b>Precompiled FB code</b>
+<br>The compiled code is in a series of *.o files in build_temp. Each *.o file contains binary code derived from one or more FB source files. For example:
+<br>_0_TranslatedRuntime.o
+<br>...
+<br>_15_Loop_Statemen,Conditional.o
+<br>...
+<br> _19_Init,Main_,FBtoC,FBtoC.o
+<br>
+<p>A *.o file is compiled from its matching C source (*.c and *.h files). If these are both unchanged since the last build, compilation can be skipped. 
+<br>
+<p>FBtoC uses special indicator files to vouch for the integrity of *.o files; their long names (like _0_TranslatedRuntime.c_9aee936b...1b85b8e50_10023_149.vch) encode the md5 checksum of the matching C source along with the current compiler settings.
+
+<p><b>Header information from the OS X frameworks</b>
+<br>Also known as a precompiled header or pch, this cache is controlled by FBtoC settiings checkbox 'Use precompiled header'.
+<br>The cache, in a format private to the compiler, is in the folder build_temp/FBtoC_Prefix_clang.h.gch/
+<br>
+<p>
+<br>
+<p>Both forms of caching are most effective when you do repeated builds for a single architecture and with the same FBtoC settings. This is typically the case during program development, for which fast compilation is especially desirable. The recommended development settings are shown below:
+<p><img src="../gfx/FastCompile.jpg">
+
+<p>If, on the other hand, you change certain settings the entire program (and pch if enabled) must be recompiled.
+<br>The relevant FBtoC settings are:
+<ul>Min deployment
+<br>Base SDK
+<br>Debug level
+<br>Optimization</ul>
+Changing any of those settings invalidates all cached information at the next build.
+
+</body>
+</html>
+
+
+

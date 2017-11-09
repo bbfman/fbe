@@ -1,0 +1,231 @@
+/* FBCursors */
+" cannot be animated" = " cannot be animated";
+
+/* FBGrowDynamicArray */
+" for dynamic array (ref " = " for dynamic array (ref ";
+
+/* FBOpenUNIX */
+" for FileID: " = " for FileID: ";
+
+/* FBCursors */
+" is not a ThemeCursor" = " is not a ThemeCursor";
+
+/* FBReportRangeError */
+" is outside the DIM range 0 to" = " is outside the DIM range 0 to";
+
+/* FBGrowDynamicArray */
+")" = ")";
+
+/* FBLineNumberMsg
+   FBReportRangeError */
+"." = ".";
+
+/* FBReportRangeError */
+"\rIndex " = "\rIndex ";
+
+/* FBReportRangeError */
+"Array bounds error" = "Array bounds error";
+
+/* FBLineNumberMsg */
+"At line" = "At line";
+
+/* FBGrowDynamicArray */
+"Bad index " = "Bad index ";
+
+/* FBfullStop */
+"Continue" = "Continue";
+
+/* FBEditMenu */
+"Copy" = "Copy";
+
+/* FBCursors */
+"Cursor " = "Cursor ";
+
+/* FBEditMenu */
+"Cut" = "Cut";
+
+/* FBEditMenu */
+"Delete" = "Delete";
+
+/* FBEditMenu */
+"Edit" = "Edit";
+
+/* SaveConsoleTXNObjectToTextFile */
+"Error " = "Error ";
+
+/* FBOpenOutput */
+"Error in FBOpenOutput for file# " = "Error in FBOpenOutput for file# ";
+
+/* FBOpenUNIX */
+"Error in Open 'UNIX' for file# " = "Error in Open 'UNIX' for file# ";
+
+/* SaveConsoleTXNObjectToTextFile */
+"Error while saving " = "Error while saving ";
+
+/* BuildConsoleWindow */
+"FB Console" = "FB Console";
+
+/* FBFixUpPrhandle */
+"FB FBFixUpPrhandle PMSessionMakeOldPrintRecord error" = "FB FBFixUpPrhandle PMSessionMakeOldPrintRecord error";
+
+/* FBFileErrorAlert */
+"File ref:" = "File ref:";
+
+/* FBOpenUNIX */
+"FileID already in use" = "FileID already in use";
+
+/* FBOpenOutput */
+"FileID must be in range 1 to " = "FileID must be in range 1 to ";
+
+/* FBOpenUNIX */
+"FileID not in range " = "FileID not in range ";
+
+/* CTNRSTORERESID */
+"in CTNRSTORERESID" = "in CTNRSTORERESID";
+
+/* BuildConsoleWindow */
+"Monaco" = "Monaco";
+
+/* FBEditMenu */
+"Paste" = "Paste";
+
+/* FBMakeSureItsAWindow */
+"Printing without a Window!" = "Printing without a Window!";
+
+/* FBfullStop */
+"Quit" = "Quit";
+
+/* FBReadDynamic */
+"read dynamic: array element size does not match target" = "read dynamic: array element size does not match target";
+
+/* FBEditMenu */
+"Redo" = "Redo";
+
+/* FBEditMenu */
+"Select All" = "Select All";
+
+/* FBfullStop */
+"Stop" = "Stop";
+
+/* FBShutdown */
+"The application must quit" = "The application must quit";
+
+/* FBFileErrorAlert */
+"The program has returned a file error." = "The program has returned a file error.";
+
+/* FBEditMenu */
+"Undo" = "Undo";
+
+/* FBAppearanceWindow */
+"Untitled" = "Untitled";
+
+
+
+
+
+
+/* Subs DefUsr.incl: 791 */
+"      width:" = "      width:";
+
+/* Subs DefUsr.incl: 770 */
+"    Hex: " = "    Hex: ";
+
+/* Subs DefUsr.incl: 771 */
+" Binary: " = " Binary: ";
+
+/* Subs Appearance Btns.incl: 107
+   Subs Appearance Btns.incl: 68
+   Subs Appearance Btns.incl: 122
+   Subs Appearance Btns.incl: 54
+   Subs Appearance Btns.incl: 153
+   Subs Appearance Btns.incl: 174
+   Subs Appearance Btns.incl: 211
+   Subs Appearance Btns.incl: 86
+   Subs Appearance Btns.incl: 136 */
+" for button" = " for button";
+
+/* Subs DefUsr.incl: 791 */
+" height:" = " height:";
+
+/* Subs Appearance Btns.incl: 54 */
+" in" = " in";
+
+/* Subs UNIX Shell.incl: 36
+   Subs UNIX Shell.incl: 56 */
+"\" not found" = "\" not found";
+
+/* Rntm Appearance.incl: 135 */
+"Bad method parameter in def WindowReposition for window" = "Bad method parameter in def WindowReposition for window";
+
+/* Rntm Appearance.incl: 152 */
+"Bad parentWNum parameter in def WindowReposition for window" = "Bad parentWNum parameter in def WindowReposition for window";
+
+/* Rntm Appearance.incl: 140 */
+"Bad wNum parameter in def WindowReposition: " = "Bad wNum parameter in def WindowReposition: ";
+
+/* Subs UNIX Shell.incl: 56 */
+"BSD function \"" = "BSD function \"";
+
+/* Subs Appearance Btns.incl: 136 */
+"ButtonDataSize error " = "ButtonDataSize error ";
+
+/* Subs Appearance Btns.incl: 107 */
+"ButtonTextString$ error " = "ButtonTextString$ error ";
+
+/* Tlbx CFString.incl: 128 */
+"CFStringCreateWithPascalString failed in CFSTR" = "CFStringCreateWithPascalString failed in CFSTR";
+
+/* Subs DefUsr.incl: 746 */
+"Click mouse to continue." = "Click mouse to continue.";
+
+/* Subs DefUsr.incl: 769 */
+"Decimal:" = "Decimal:";
+
+/* Rntm Appearance.incl: 122 */
+"def NewWindowPositionMethod must set 0, _kWindowCenterOnMainScreen, _kWindowCascadeOnMainScreen, or _kWindowAlertPositionOnMainScreen" = "def NewWindowPositionMethod must set 0, _kWindowCenterOnMainScreen, _kWindowCascadeOnMainScreen, or _kWindowAlertPositionOnMainScreen";
+
+/* Subs Appearance Btns.incl: 54 */
+"EmbedButton error " = "EmbedButton error ";
+
+/* Subs Files.incl: 90 */
+"Error" = "Error";
+
+/* Subs DefUsr.incl: 279 */
+"Failed to append “" = "Failed to append “";
+
+/* OSX SerialIO.incl: 87 */
+"FindModems: IOServiceGetMatchingServices failed" = "FindModems: IOServiceGetMatchingServices failed";
+
+/* Subs UNIX Shell.incl: 36 */
+"Framework bundle \"" = "Framework bundle \"";
+
+/* Subs Appearance Btns.incl: 122 */
+"GetButtonData error " = "GetButtonData error ";
+
+/* Subs Appearance Btns.incl: 174 */
+"GetButtonTextSelection error " = "GetButtonTextSelection error ";
+
+/* Tlbx CFString.incl: 124 */
+"Out of memory in CFSTR" = "Out of memory in CFSTR";
+
+/* Subs Appearance Btns.incl: 68 */
+"SetButtonData error " = "SetButtonData error ";
+
+/* Subs Appearance Btns.incl: 20 */
+"SetButtonFocus error " = "SetButtonFocus error ";
+
+/* Subs Appearance Btns.incl: 211 */
+"SetButtonFontStyle error " = "SetButtonFontStyle error ";
+
+/* Subs Appearance Btns.incl: 153 */
+"SetButtonTextSelection error " = "SetButtonTextSelection error ";
+
+/* Subs Appearance Btns.incl: 86 */
+"SetButtonTextString error " = "SetButtonTextString error ";
+
+/* OSX BSD glue.incl: 27 */
+"System.framework" = "System.framework";
+
+/* Subs DefUsr.incl: 279 */
+"” to STR# handle." = "” to STR# handle.";
+

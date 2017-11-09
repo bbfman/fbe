@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>FBtoC User Guide : menu [statement]</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;menu</font> <font class="diffkwheadertype">[statement]</font>
+<hr>
+
+<p><li>An optional 5th parameter (commandID) may be supplied when the menu is created.
+<pre class="codeexample">
+menu 1, 2, 1, "Open&#133;/O", _kHICommandOpen
+</pre>
+The above example is equivalent to:
+<br>menu 1, 2, 1, "Open&#133;/O"
+<br>fn SetMenuItemCommandID( fn GetMenuHandle( 1 ), 2, _kHICommandOpen )
+
+<p><li>Menu resources not handled.
+<p><li>Macros not supported.
+
+</body>
+</html>
+

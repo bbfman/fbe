@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>FBtoC User Guide : proc</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;proc</font>
+<hr>
+
+The syntax is different, plus the label must precede the line in which <b>proc</b> appears:
+
+<pre class="codeexample">
+<b>long if</b> 0
+"MyCommandProcessHandler"
+<b>enterproc fn</b> MyCommandProcessHandler( nextHandler <b>as</b> EventHandlerCallRef, theEvent <b>as</b> EventRef, userData <b>as pointer</b> )
+'~'1
+<b>dim as</b> OSStatus result : result = _eventNotHandledErr
+
+// ...
+
+<b>exitproc</b> = result
+<b>end if</b>
+
+
+<b>local fn</b> InstallMyCommandProcessHandler
+'~'1
+<b>dim as</b> EventTypeSpec eventSpec
+
+eventSpec.eventClass = _kEventClassCommand
+eventSpec.eventKind = _kEventCommandProcess
+
+<b>#if def</b> _FBtoC				// FBtoC
+
+<b>call InstallEventHandler</b> ( <b>fn GetApplicationEventTarget</b>(), <b>proc</b> "MyCommandProcessHandler", 1, @eventSpec, #0, #0 )
+
+<b>#else</b>				// FB
+
+<b>begin globals</b>
+<b>dim as proc</b> sMyCommandProcessHandlerUPP
+<b>end globals</b>
+<b>long if</b> ( sMyCommandProcessHandlerUPP == 0 )
+sMyCommandProcessHandlerUPP = <b>fn NewEventHandlerUPP</b>( [<b>proc</b> "MyCommandProcessHandler" + _FBprocToProcPtrOffset] )
+<b>end if</b>
+<b>call InstallEventHandler</b>( <b>fn GetApplicationEventTarget</b>(), sMyCommandProcessHandlerUPP, 1, @eventSpec, #0, #0 )
+
+<b>#endif</b> // def _FBtoC
+
+<b>end fn</b>
+</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,160 @@
+﻿<html>
+<head>
+<title>FBtoC User Guide : Language enhancements</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Language enhancements</font>
+<hr>
+
+<a name="framework"></a>
+<font class="subhead1">Framework access</font>
+<br>Frameworks may be specified with the <a href="keywords/include.htm">include library</a> statement.
+
+<p>The QuickTime framework is included and linked by default; your source code does not need 'include library "QuickTime"'. The OpenGL framework is automatically included and linked if your project uses one of the relevant Headers files such as Tlbx gl.incl or Tlbx agl.incl.
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">Optional files in the built app package</font>
+
+<p><b>Copying of specified files into &lt;app&gt;/Contents/Resources</b>
+<br>The <a href="keywords/include.htm">include resources</a> statement allows you to specify any number of files for copying: 
+
+<pre class="codeexample"
+<b>include resources</b> "SomeImage.png"
+<b>include resources</b> "SomeMovie.mpeg"
+<b>include resources</b> "SomeSound.aiff"
+</pre>
+
+<p>FBtoC copies such files into the built app package. Note: the files must be in same folder as the FB project or standalone source file.
+
+<p><b>*.icns file from 'icns' resource  (to &lt;app&gt;/Contents/Resources)</b>  
+<br>If an 'icns' resource exists in a project resource file, the 'icns' resource is saved as a file in <app>/Contents/Resources. This is automatic and does not require the use of the include resource statement. The file name is derived from the resID of the 'icns' resource, eg. 128.icns. This is the same method used by  MakeBundle.
+
+<p><b>Info.plist  (in &lt;app&gt;/Contents/)</b>
+<br>FBtoC automatically copies a generic Info.plist into the compiled bundle's Contents directory. That generic Info.plist template can be found in FBtoC at: build_goodies/BuiltApplication.app/Contents/Info.plist.in
+<p>A consequence of using that generic template is that it indicates FBtoC's generic BlueLeafC.icns as the *.icns file. Hence, the compiled application will display FBtoC's generic BlueLeaf icon.
+<p>The user may override the default behavior based on "Info.plist.in" by including a user-supplied Info.plist file in the FB source folder. FBtoC will automatically find the user-supplied Info.plist and use that, thus overriding its default behavior.
+<p>In that case, the user will also have to include a *.icns file corresponding to that pointed to by CFBundleIconFile in the custom Info.plist. The user's custom *.icns file can be copied to the compiled application bundle with 'include resources':
+
+<pre class="codeexample">
+<b>include resources</b> "AppIcon.icns"
+</pre>
+Note: Including C or Objective-C headers( i.e. files with the .h extension ) requires a different 'include' syntax:
+<pre class="codeexample">
+<b>include</b> "HeaderName.h"  // do <i>not</i> use 'include resources' to include C/Objective-C headers
+</pre>
+<pre>
+
+</pre>
+<p><font class="subhead1">Pointer- and Handle-typed functions (the new "as type" syntax)</font>
+<br>Ordinary FB functions that return a pointer or Handle give rise to a compiler warning.
+
+<pre class="codeexample">
+<b>local fn</b> MyPointerToSomething
+<b>dim as pointer</b> p
+//...
+<b>end fn</b> = p
+</pre>
+
+<pre class="logwarning">
+In function 'MyPointerToSomething':
+warning: return makes integer from pointer without a cast
+</pre>
+
+<p>The warning can be eliminated by supplying a pointer type for the declaration:
+
+<pre class="codeexample">
+<b>local fn</b> MyPointerToSomething <b>as pointer</b> // new syntax
+<b>dim as pointer</b> p
+//...
+<b>end fn</b> = p
+
+// Example of a function with arguments
+<b>local fn</b> AFuncWithArguments( id <b>as</b> SInt32, size <b>as</b> SInt16 ) <b>as Handle</b>
+<b>dim as Handle</b> h
+
+h = <b>fn NewHandle</b>( size )
+<b>end fn</b> = h 
+</pre>
+
+
+
+<pre>
+
+</pre>
+<a name="enhanceappearancebutton"></a>
+<p><font class="subhead1">appearance button statement for text controls</font>
+<br>When creating or changing text controls with the appearance button statement, FB4 ignores the title param, but FB5 inserts the text in the control:
+
+<pre class="codeexample">
+<b>appearance button</b> 1,,,,, "My text", @r, _kControlEditUnicodeTextProc
+<b>appearance button</b> 1,,,,, "Changed text"
+</pre>
+
+
+<pre>
+
+</pre>
+<a name="enhancefiles$"></a>
+<p><font class="subhead1">files$ statement</font>
+<br>In addition to FSSpecs, FB5's files$ statement supports FSRefs and CFURLRefs.  These do NOT work in FB.
+<p>Examples ("ref" is an FSRef, "url" is a CFURLRef):
+
+<pre class="codeexample">
+fileName = <b>files$</b>( _FSRefOpen,,, ref )
+
+fileName = <b>files$</b>( _FSRefSave,,, ref )
+
+fileName = <b>files$</b>( _CFURLRefOpen,,, url )
+
+fileName = <b>files$</b>( _CFURLRefSave,,, url )
+</pre>
+
+<pre>
+
+</pre>
+<a name="enhanceopen"></a>
+<p><font class="subhead1">open statement</font>
+<br>In addition to FSSpecs, FB5's <a href="keywords/open.htm">open</a> statement supports FSRefs and CFURLRefs.
+<pre>
+
+</pre>
+
+<p><font class="subhead1">String length errors not reported</font>
+<br>String length errors are not reported by FBtoC-built apps. Instead, strings are silently truncated to the maximum length that will fit in the destination variable.
+
+<pre>
+
+</pre>
+
+<p><font class="subhead1">Alternative syntax for fn CFSTR()</font>
+<br>
+There is a new syntax, borrowed from Objective-C, for obtaining a CF string from a string literal. In most cases the new form @"foo" is interchangeable with fn CFSTR( "foo" ), but there are differences. @"foo" uses Apple's official CFSTR macro, whereas fn CFSTR( "foo" ) uses a CFSTR emulator in the runtime. The advantage of the '@' form is that it allows escaped characters (preceded by a backslash).
+<pre class="codeexample">
+dim as CFStringRef  cfstr
+cfstr = @"printable ascii" // same as fn CFSTR( "printable ascii" )
+cfstr = @"item 1\ritem 2"  // embedded return char; same as fn CFSTR( "item 1" + chr$( 13 ) + "item 2" )
+cfstr = @"\""              // double-quote char; same as fn CFSTR( """" )
+cfstr = @"ƒøµ"             // non-ASCII chars; don't do that! Instead use fn CFSTR( "ƒøµ" )
+</pre>
+The '@' form requires a string literal (not a string expression). 
+<pre>
+
+</pre>
+
+<p><font class="subhead1">Dereference a pointer to a 64-bit integer</font>
+<br>p.0@ dereferences a pointer to a 64-bit integer (like p.0& for 32 bit integers)
+<pre>
+
+</pre>
+
+
+</body>
+</html>
+
+
+

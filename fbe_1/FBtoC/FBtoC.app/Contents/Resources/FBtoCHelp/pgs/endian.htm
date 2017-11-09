@@ -1,0 +1,185 @@
+<html>
+<head>
+<title>FBtoC User Guide : Byte order</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Byte order</font>
+<hr>
+<p>The FB Compiler always produces traditional Mac big-endian PPC code. On an Intel Mac, such apps are run in Rosetta and thus keep their big-endian property. FBtoC can produce either big-endian or little-endian or both, depending on the Architecture setting (PPC, Intel, Universal). 
+<p>Many FB programs, when run in little-endian mode for the first time, turn out to have bugs. Endian bugs affect multibyte numeric variables: short, long, pointer, single and double (along with synonyms: SInt16, SInt32, ptr...). Strings and 1-byte numeric vars (char, unsigned byte, UInt8...) are not affected directly by endianness.
+
+
+
+<p><font class="subhead1">Byte order in memory</font>
+<p>
+As an illustrative example, consider how we might display the most- and least-significant byes of a short variable. 
+
+
+<pre class="codeexample">
+dim as short   myShortVar
+dim as byte    lsByte, msByte
+myShortVar = 1
+print , "msByte", "lsByte"
+... rest of program follows later...
+
+Output (on Intel Mac):
+               msByte         lsByte
+buggy method    1              0
+fix 1           0              1
+fix 2           0              1
+fix 3           0              1
+fix 4           0              1
+</pre>
+
+<br>
+<br>Old code that assumes big-endian format :-(
+
+<pre class="codeexample">
+print "buggy method",
+msByte = peek( @myShortVar )     // endian bug on Intel
+lsByte = peek( @myShortVar + 1 ) // endian bug on Intel
+print msByte, lsByte
+</pre>
+
+
+<br>
+<br>Patch a copy of the byte-peeking code to work little-endian,
+then set things up so the patch gets used on Intel (only).
+<br>The magic constant _LITTLEENDIAN is described in FBtoC Help.
+<br>Con: conditional compilation makes code hard to read, understand and maintain.
+
+
+<pre class="codeexample">
+print "fix 1",
+#if def _LITTLEENDIAN   // Intel
+msByte = peek( @myShortVar + 1 ) // byte 1
+lsByte = peek( @myShortVar )     // byte 0
+#else                   // PPC
+msByte = peek( @myShortVar )     // byte 0
+lsByte = peek( @myShortVar + 1 ) // byte 1
+#endif     /* def _LITTLEENDIAN */
+print msByte, lsByte
+</pre>
+
+
+<br>Byte-swap the data, do our calculation, then swap it back again.
+<br>CFSwapXxxxHostToBig() and CFSwapXxxxBigToHost() swap on Intel but not on PPC.
+<br>
+Pro: doesn't use conditional compilation
+<br>
+Con: remember to swap back again
+
+<pre class="codeexample">
+print "fix 2",
+include "Tlbx CFByteOrder.incl"
+myShortVar = fn CFSwapInt16HostToBig( myShortVar )
+// myShortVar is now certainly big-endian
+// so we can safely use "buggy method"'s code
+msByte = peek( @myShortVar )     // rescued from endian bug on Intel
+lsByte = peek( @myShortVar + 1 ) // rescued from endian bug on Intel
+myShortVar = fn CFSwapInt16BigToHost( myShortVar ) // restore previous byte order
+print msByte, lsByte
+</pre>
+
+
+
+<br>Convert the data into a string, character sequence, text stream etc, which are inherently endian safe
+<br>Pro: doesn't use conditional compilation or byte-swapping
+<br>Con: slow, obfuscated
+<pre class="codeexample">
+print "fix 3",
+dim as Str255 tempString
+defstr long
+tempString = hex$( myShortVar )
+msByte = val&( mid$( tempString, tempString[0] - 4, 2 ) )
+lsByte = val&( right$( tempString, 2 ) )
+print msByte, lsByte
+</pre>
+
+
+<br>Write endian-safe code in the first place.
+<br>Pro: shifting and masking are endian safe and very fast, so for this problem, fixes 1-3 above are redundant.
+<br>Con: not always possible
+<pre class="codeexample">
+print "fix 4",
+msByte = myShortVar >> 8
+lsByte = myShortVar and 0x00FF
+print msByte, lsByte
+</pre>
+
+<br>
+
+<p><font class="subhead1">Byte order on disk: data</font>
+
+
+<pre class="codeexample">
+// string format on disk; endian safe
+print #fileNum, anything
+input #fileNum, anything
+
+// written via the FBtoC runtime as big-endian on disk
+// automatically swapped by the runtime to little-endian read on Intel
+write #fileNum, shortVar, longVar, singleVar, doubleVar, int64Var // endian safe
+read #fileNum,  shortVar, longVar, singleVar, doubleVar, int64Var // endian safe
+
+write #fileNum, anyRecordVar // on disk, has endianness of writer host; potential endian bug
+read #fileNum,  anyRecordVar // byte order on disk preserved in reader host memory; potential endian bug
+
+write file #fileNum, address, numBytes // on disk, has endianness of writer host; potential endian bug
+read file  #fileNum, address, numBytes // byte order on disk preserved in reader host memory; potential endian bug
+</pre>
+
+<p><font class="subhead1">Byte order on disk: resources</font>
+
+
+<p>Standard system-defined resource types (e.g. STR#, moov, MENU) are big-endian on disk.  System-supplied 'resource flippers' automatically byte-swap on an Intel Mac, in both read and write directions, during any call to any call to the relevant Resource Manager functions. Standard resource types are thereby made to take on the endianness of the host, and all your resource management code should just work, unchanged, on Intel. (Inept coding on your part, though, could get the ResType wrong, so that you ask for a 'voom' resource).
+
+
+<p>Custom resources have a potential endian bug.
+
+<p>
+<p><font class="subhead1">Swapping floating point values in an array</font>
+
+<pre class="codeexample">
+include "Subs FloatByteSwapping.incl"
+dim as single  value(9)
+dim as long    j, n
+
+// read big-endian array in one chunk from disk
+n = 10
+read file #1, @value(0), n*sizeof( single )
+
+// make it host-endian
+for j = 0 to n - 1
+ value(j) = fn SwapSingleBigToHost!( value(j) )
+next
+// value array is now host-endian, ready for use
+//...
+
+// make it big-endian again
+for j = 0 to n - 1
+ value(j) = fn SwapSingleHostToBig!( value(j) )
+next
+
+// write big-endian array in one chunk to disk
+write file #1, @value(0), n*sizeof( single )
+</pre>
+
+SwapDoubleBigToHost#() and SwapDoubleHostToBig#() are available for swapping doubles similarly.
+<br>This code works in PPC and Intel, FB4 or FB5.  If your project is FBtoC-only, you can remove the ugly #! suffices from the swapping functions.
+
+
+
+<p>See also:
+<br><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_intro/chapter_1_section_1.html"target="blank">Universal Binary Programming Guidelines</a>
+<br><a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/universal_binary_byte_swap/chapter_4_section_1.html"target="blank">Swapping Bytes</a>
+<br><a href="http://developer.apple.com/documentation/CoreFoundation/Reference/CFByteOrderUtils/Reference/reference.html"target="blank">Byte-Order Utilities Reference</a>
+
+
+</body>
+</html>
+
+
+

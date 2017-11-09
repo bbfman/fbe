@@ -1,0 +1,1 @@
+/*  FontManager.incl  Bernie Wylde 20171004  Inherits from: object */toolbox FontManagerSetSelectedFont( CTFontRef font )toolbox fn FontManagerSelectedFont = CTFontRef// customtoolbox FontManagerShowPaneltoolbox FontManagerClosePanel

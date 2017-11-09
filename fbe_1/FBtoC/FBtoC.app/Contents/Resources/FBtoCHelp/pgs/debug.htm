@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>FBtoC User Guide : Running under Xcode Debugger</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Running under Xcode Debugger</font>
+<hr>
+
+<p><b>Xcode preferences</b>
+<br>Turn off 'Load symbols lazily', and set to show Debugger at startup:
+<p><img src="../gfx/XcodePrefs.jpg">
+<p><img src="../gfx/XcodePrefs2.jpg">
+
+<p><b>Build settings</b>
+<br>Build your app with FBtoC settings 'Debug level: fn names and line #'.
+
+<p><b>Debugging</b>
+<br>After the build, choose File > Debug Last App.
+<p>FBtoC sets up an Xcode project to debug your app as a "custom executable" (see 
+<a href="http://developer.apple.com/documentation/DeveloperTools/Conceptual/XcodeUserGuide/Contents/Resources/en.lproj/06_02_db_set_up_debug/chapter_42_section_6.html" target="blank">Debugging Arbitrary Applications With Xcode</a>)
+
+<p>All going well, you get full source-code debugging, with symbolic break-points etc.:
+<p><img src="../gfx/sourcedebugging.jpg">
+
+
+<p><b>Reference</b>
+<br><a href="http://developer.apple.com/documentation/DeveloperTools/Conceptual/XcodeUserGuide/Contents/
+Resources/en.lproj/06_02_db_set_up_debug/chapter_42_section_1.html#//apple_ref/doc/uid/TP40002699-BABDECGI" target="blank">Xcode User Guide: Debugging</a>
+
+<br><a href="http://developer.apple.com/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/SpecifyingtheProcesstoTrace/chapter_4_section_2.html" target="blank">Xcode User Guide: Attaching to a Running Process</a>
+
+</body>
+</html>
+
+
+

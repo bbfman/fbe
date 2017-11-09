@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>FBtoC User Guide : edit field</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;edit field</font>
+<hr>
+
+<p>Limited support is provided for edit fields. 
+Only some straightforward options for edit field and edit$ are implemented. 
+Edit-related statements or functions not used in the demo below should be presumed unimplemented.
+
+<pre class="codeexample">
+<b>dim as</b> Rect r
+
+<b>SetRect</b>( r, 0, 0, 480, 340 )
+<b>appearance window</b> 1, "EF Tests", @r, _kDocumentWindowClass, _kWindowCompositingAttribute
+
+<b>SetRect</b>( r, 200, 20, 460, 150 )
+<b>text</b> _sysFont, 13, 0
+<b>edit field</b> 1, "_statNoFramed", @r, _statNoFramed
+
+<b>text</b> _times, 18, _boldBit%
+<b>SetRect</b>( r, 200, 170, 460, 320 )
+<b>edit field</b> 2,, @r, _framed
+
+<b>edit$</b>( 2 ) = "Alpha" + <b>chr$</b>(13) + "Bravo" + <b>chr$</b>(13) + "Victor" + <b>chr$</b>(13) + "Delta"
+
+<b>text</b> _monaco, 9, 0
+<b>print</b> : <b>print edit$</b>( 2, 12, 19 )
+
+<b>edit$</b>( 2, 3 ) = "Charlie"
+<b>edit$</b>( 2, 32767 ) = ""
+<b>tekey$</b> = <b>chr$</b>(13) + "Echo"
+
+<b>print edit$</b>( 2, 3 )
+<b>print</b> : <b>print edit$</b>(2)
+
+'edit field 0
+<b>SetSelect</b> 5, 10
+
+<b>do</b>
+<b>HandleEvents</b>
+<b>until</b> gFBQuit
+</pre>
+
+<pre>
+
+</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,379 @@
+<html>
+<head>
+<title>FBtoC User Guide : Adapting your code for FBtoC</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Adapting your code for FBtoC</font>
+<hr>
+
+<p>In theory, FBtoC translates any and all FB code correctly without requiring you to make any changes. As they say, theory and practice are the same in theory, but in practice they are different.
+<p>You're going to have to make changes. Some are straightforward, and don't affect the ability of your code to run on FB, such as replacing compile long if by #if.
+<p>Some are invasive, meaning that the altered code no longer works in FB. To keep your project compatible, you provide two code paths, one for FB and the other for FBtoC. The special constant <a href="#fbtocconstant">_FBtoC</a> described below serves to conditionalise the two branches.
+
+<pre>
+
+</pre>
+<p><font class="subhead1">autoXREFCurr&</font>
+<br>To obtain the next index for a dynamic array:
+
+<pre class="codeexample">
+<b>begin globals</b>
+<b>dynamic</b> myDynArray(1000) <b>as long</b>
+<b>end globals</b>
+myDynArray(567) = 1
+<b>#if def</b> _FBtoC
+nextIndex = <b>fn</b> DynamicNextElement( <b>dynamic</b>( myDynArray ) ) // FBtoC syntax
+<b>#else</b>
+<b>dim as pointer</b> address
+address = @myDynArray               // FB...
+nextIndex = address.autoXREFCurr&   // ...syntax
+<b>#endif</b>
+// nextIndex is 568
+</pre>
+
+<pre>
+
+</pre>
+<p><font class="subhead1">def DynamicRemoveItems</font>
+<br>The syntax for FBtoC is different from FB.
+
+<pre class="codeexample">
+// Delete item 1 in dynamic array
+<b>#if ndef</b> _FBtoC
+<b>def DynamicRemoveItems</b>( gMyDynArray, 1, 1, 0 )            // FB syntax
+<b>#else</b>
+<b>def DynamicRemoveItems</b>( <b>dynamic</b>( gMyDynArray ), 1, 1, 0 ) // FBtoC syntax
+<b>#endif</b>
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">for/next loops</font>
+<br>Owing to historical aberration, for/next loops in FB were always executed at least once. This aberration has been removed in FBtoC.
+
+<pre class="codeexample">
+<b>dim as long</b>  j, n
+n = 0
+<b>for</b> j = 1 <b>to</b> n
+ // get here in FB but not in FBtoC
+<b>next</b>
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">HandleEvents</font>
+<br>The default behaviour of HandleEvents is to block (i.e. not return) unless an event is dispatched. The original behaviour of returning 30 times a second, if required for old polling code, can be restored by:
+<pre class="codeexample">
+<b>poke long event</b> - 8, 2 // null events every 2 ticks, like FB4
+<b>do</b>
+  fn PollForSomething
+  <b>HandleEvents</b>
+<b>until</b> gFBQuit
+</pre>
+
+<pre>
+
+</pre>
+<p><font class="subhead1">HMHelpContent and ControlButtonContentInfo</font>
+<br>The HMHelpContent and ControlButtonContentInfo structs in C (and FBtoC ) contain a named union (whose name is 'u'), whereas in FB the union is anonymous.
+<br>To avoid the error 
+<pre class="logerror">... Field not a member of record</pre>
+you must use the new syntax for all statements in your code that reference fields within the union.
+
+<pre class="codeexample">
+<b>dim as</b> HMHelpContent  helpText
+<b>#if def</b> _FBtoC
+helpText.u.tagString = "My window help tag"
+<b>#else</b>
+helpText.tagString = "My window help tag"
+<b>#endif</b>
+
+<b>dim as</b> ControlButtonContentInfo   cbcInfo
+cbcInfo.contentType = _kControlContentIconSuiteRes
+<b>#if ndef</b> _FBtoC
+// your old FB code using field references such as:
+... cbcInfo.resID ... // or cIconHandle, iconSuite, iconRef...
+<b>#else</b>
+// FBtoC equivalent union field references:
+... cbcInfo.u.resID ... // or u.cIconHandle, u.iconSuite, u.iconRef...
+<b>#endif</b>
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">enterproc</font>
+<br>Label must match the enterproc fn name:
+
+<pre class="codeexample">
+<b>long if</b> 0
+"MyCommandProcessHandler"
+<b>enterproc fn</b> MyCommandProcessHandler( ...
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">FSCatalogInfo.finderInfo</font>
+<br>Defined differently in C and FB.
+<p>This works in FB only:
+<pre class="codeexample">
+<b>include</b> "Tlbx MoreFilesX.incl"
+<b>local mode</b>
+<b>local fn</b> FSRefSetTypeAndCreator( ref <b>as</b> ^FSRef, type <b>as</b> OSType, creator <b>as</b> OSType )
+'~'1
+<b>dim as</b> FSCatalogInfo info
+<b>dim as</b> OSErr err
+
+err = <b>fn</b> FSGetCatalogInfo( #ref, _kFSCatInfoFinderInfo, @info, #0, #0, #0 ) 
+<b>long if</b> ( err == _noErr )
+info.finderInfo.file.fileType = type // ................. compile error
+info.finderInfo.file.fileCreator = creator // ........... compile error
+err = <b>fn</b> FSSetCatalogInfo( #ref, _kFSCatInfoFinderInfo, info )
+<b>end if</b>
+<b>end fn</b> = err
+</pre>
+
+<p>This (exact equivalent) works in both FB and FBtoC:
+
+<pre class="codeexample">
+<b>include</b> "Tlbx MoreFilesX.incl"
+<b>local mode</b>
+<b>local fn</b> FSRefSetTypeAndCreator( ref <b>as</b> ^FSRef, type <b>as</b> OSType, creator <b>as</b> OSType )
+'~'1
+<b>dim as</b> FSCatalogInfo info
+<b>dim</b> fInfo <b>as</b> ^FileInfo
+<b>dim as</b> OSErr err
+
+err = <b>fn</b> FSGetCatalogInfo( #ref, _kFSCatInfoFinderInfo, @info, #0, #0, #0 ) 
+<b>long if</b> ( err == _noErr )
+fInfo = @info.finderInfo
+fInfo.fileType = type
+fInfo.fileCreator = creator
+err = <b>fn</b> FSSetCatalogInfo( #ref, _kFSCatInfoFinderInfo, info )
+<b>end if</b>
+<b>end fn</b> = err
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">LongDateRec</font>
+<br>Different syntax required for FBtoC.
+<p>In order to simulate the union structure in C, the definition of LongDateRec in Tlbx Structures.incl (in FBtoC headers folder) is different from that used in standard FB. Assuming there is a variable defined as:
+
+<pre class="codeexample">
+<b>dim as</b> LongDateRec   cDate
+</pre>
+
+<p>The conditional code to access month, day , year  is as follows:
+
+<pre class="codeexample">
+<b>#if def</b> _FBtoC
+cDate.ld.year      = whatever
+cDate.ld.month     = whatever
+cDate.ld.day       = whatever
+<b>#else</b>
+cDate.year         = whatever
+cDate.month        = whatever
+cDate.day          = whatever
+<b>#endif</b>
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">picFrame</font>
+<br>Intel native code for the picFrame field of a PicHandle gives byte-reversed garbage. The fix is to use QDGetPictureBounds().
+
+<pre class="codeexample">
+<b>dim as</b> Rect  r
+<b>dim</b> picH <b>as</b> ^^Picture
+picH = <b>fn GetPicture</b>( _myPICTResID )
+<b>#if def</b> _FBtoC
+<b>fn</b> QDGetPictureBound( picH, @r )
+<b>#else</b>
+r = picH..picFrame // r fields are wrong on Intel
+// r;8 = [picH] + _picFrame // old FBII syntax; r fields are wrong on Intel
+<b>#endif</b>
+</pre>
+
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">Proc function</font>
+<br>The syntax for FBtoC is different from FB.
+
+<pre class="codeexample">
+<b>#if ndef</b> _FBtoC
+sRFilter = <b>fn NewControlKeyFilterUPP</b>( [<b>proc</b> "MyFilterProc" + _FBprocToProcPtrOffset] )  // FB
+<b>#else</b>
+sRFilter = <b>fn NewControlKeyFilterUPP</b>( @fn MyFilterProc )   // FBtoC
+<b>#endif</b>
+</pre>
+<br>FBtoC also accepts another form: proc "MyRecurFilterProc"
+
+
+<pre>
+
+</pre>
+<a name="specialconstants"></a>
+<p><font class="subhead1">Special constants</font>
+
+<p>
+<a name="fbtocconstant"><b>FBtoC special constant</b></a>
+<br>FBtoC maintains a special constant _FBtoC for use in conditional compilation. It is defined in FBtoC but not in FB. Even in FBtoC, its value is of no interest. The constant should be used only in the definition-query forms #if def ... or #if ndef ... Typically, two alternative code paths are specified:
+
+<pre class="codeexample">
+<b>#if def</b> _FBtoC
+// FBtoC sees this; FB does not
+<b>#else</b>
+// FB sees this; FBtoC does not
+<b>#endif</b>
+</pre>
+
+or
+
+<pre class="codeexample">
+<b>#if ndef</b> _FBtoC
+// FB sees this; FBtoC does not
+<b>#else</b>
+// FBtoC sees this; FB does not
+<b>#endif</b>
+</pre>
+
+
+<p><b>Other special constants</b>
+<br>There are five special constant in addition to _FBtoC (described above). All are undefined in FB. 
+<br>Like _FBtoC, they should be used only in the definition-query forms #if def ... or #if ndef ...
+<br>Unlike _FBtoC, they temporarily affect FBtoC's internal translation state. They are used mainly, but not exclusively, in Headers files. 
+<p>For reference:
+
+<pre class="codeexample">
+<b>#if def</b> _LITTLEENDIAN
+// FBtoC sees this; FB does not
+// the compiler sees this only when compiling for Intel
+<b>#else</b>
+// FBtoC and FB both see this
+// the compiler sees this only when compiling for PowerPC
+<b>#endif</b>
+
+
+<b>#if ndef</b> _DEFINEDINCARBON
+// FBtoC and FB both see this
+// FBtoC suppresses C code for #define and record definitions
+<b>#endif</b>
+
+
+// Example (from Tlbx CFString.h):
+<b>#if ndef</b> _DEFINEDINCARBON
+<b>#define</b> CFStringEncoding as UInt32
+<b>#endif</b>
+
+
+<b>#if def</b> _PASSTHROUGH
+// FBtoC sees this; FB does not
+// FBtoC passes everything, except comments, untranslated to the compiler
+// passed C code goes in current function or main()
+<b>#endif</b>
+
+
+<b>#if def</b> _PASSTHROUGHFUNCTION
+// FBtoC sees this; FB does not
+// FBtoC passes everything, except comments, untranslated to the compiler
+// the C code, typically a function definition, goes before main()
+<b>#else</b>
+// FB sees this; FBtoC does not
+<b>#endif</b>
+
+
+<b>#if def</b> _DEFINEDINCRUNTIME
+// FBtoC and FB both see this
+// FBtoC suppresses C code for var declarations (typically globals already defined in the C runtime)
+<b>#endif</b>
+</pre>
+
+
+<pre>
+
+</pre>
+<p><font class="subhead1">Working directories</font>
+<p><b>History</b>
+
+<br>Under MFS on the first Macs, files were identified by two parameters: name and volume reference number. When HFS superseded MFS, the directory structure required an additional parameter: the parID. The official way to identify a file then became the FSSpec, which contains all three parameters. To allow MFS code to work under the new file system, Apple devised an hack known as a working directory. An unfortunate consequence was that many programs, even newly written ones, continued to use the old MFS API instead of switching to the new-in-1985 FSSpecs.
+See <a href="http://developer.apple.com/documentation/mac/Files/Files-85.html" target="blank">http://developer.apple.com/documentation/mac/Files/Files-85.html</a>
+
+<p><b>Working directories are history</b>
+
+<br>If your code attempts to identify a file by name and 1 number, that number is a working directory refNum.
+
+<p>As noted above, working directories date from HFS and were abandoned by Apple in Carbon. Working directory reference numbers(WDs), and any WDs generated by FB functions/keywords, like system(_aplVol), system( _sysVol) and FOLDER, are not implemented, and will never be implemented, in FBtoC.
+
+<p>In Carbon, a file may be identified by:
+<ul>
+<li>name, vRefNum and dirID [deprecated]
+<li>FSSpec, which combines the 3 above in one record [deprecated]
+<li>FSRef
+<li>CFURLRef
+<li>path in UTF-8 encoding
+</ul>
+
+<p><b>What do I use instead of FOLDER and other WD verbs?</b>
+<br>FindFolder (or the FSRef version FSFindFolder) is your friend here.
+
+<p><b>How do I access files in the application folder?</b>
+<br>err = fn FSMakeFSSpec( system( _aplVRefNum ), system( _aplParID ), "Test", @theFileSpec )
+
+<p><b>How do I get a FileSpec from a file on the boot volume at the root level?</b>
+
+<pre class="codeexample">
+<b>dim as</b> FSSpec fs
+<b>dim as</b> OSStatus err
+
+<b>#if</b> you_know_the_vol_name // "MyDrive"
+
+err = <b>fn FSMakeFSSpec</b>( 0, 0, "MyDrive:MyFileName", @fs )
+
+<b>#else</b>
+
+<b>dim as short</b> @ vRefNum
+<b>dim as long</b> @ dirID
+err = <b>fn FindFolder</b>( _kOnSystemDisk, _kSystemFolderType, _kDontCreateFolder, @vRefNum, @dirID )
+<b>dim as</b> FSSpec fs
+err = <b>fn FSMakeFSSpec</b>( vRefNum, _fsRtDirID, ":MyFileName", @fs )
+
+<b>#endif</b>
+</pre>
+
+<pre>
+
+</pre>
+<p><font class="subhead1">Division operator usage rules</font>
+<br>' / ' and ' \\ ' are synonyms for integer divide.
+<br>' \ ' means floating-point divide.
+
+<p>These divisions are floating-point, no matter what division symbol is used:
+<br>[1] float/float [e.g. 2.42/4.29]
+<br>[2] float/integer [e.g. 2.42/4]
+<br>[3] integer/float [e.g. 2/4.29]
+<br>[4] dim as double floatResult : floatResult = integer/integer [e.g. 8/9]
+
+<p>In [4], "floatness" implied by the destination of the expression overrules the "integerness" of the right hand side. Numerator and denominator are converted to doubles and divided on the fpu.
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,1 @@
+/*  Panel.incl  Bernie Wylde 20170704  syntax:    panel tag, title, rect, style  Note:  cocoa panel is basically a cocoa window - see Window.incl for more info.*/toolbox PanelSetFloatingPanel( SInt32 tag, Boolean flag )toolbox PanelSetBecomesKeyOnlyIfNeeded( SInt32 tag, Boolean flag )toolbox PanelSetWorksWhenModal( SInt32 tag, Boolean flag )

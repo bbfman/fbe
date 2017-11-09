@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>FBtoC User Guide : files$</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;files$</font>
+<hr>
+
+<p><font class="subhead1">FBtoC enhancement</font>
+<br>FBtoC's files$ statement supports FSRefs and CFURLRefs.
+
+<pre class="codeexample">
+<b>#if def</b> _FBtoC	// FBtoC only
+<b>dim as</b> FSRef fileRef
+fileName = <b>files$</b>( _FSRefOpen,,, fileRef )
+<b>#endif</b>
+
+<b>#if def</b> _FBtoC
+<b>dim as</b> FSRef parentFolderRef
+fileName = <b>files$</b>( _FSRefSave,,, parentFolderRef )
+<b>#endif</b>
+
+<b>#if def</b> _FBtoC
+<b>dim as</b> CFURLRef fileUrl
+fileName = <b>files$</b>( _CFURLRefOpen,,, fileUrl )
+<b>#endif</b>
+
+<b>#if def</b> _FBtoC
+<b>dim as</b> CFURLRef fileUrl
+fileName = <b>files$</b>( _CFURLRefSave,,, fileUrl )
+<b>#endif</b>
+</pre>
+
+
+<pre>
+
+
+</pre>
+
+</body>
+</html>
+

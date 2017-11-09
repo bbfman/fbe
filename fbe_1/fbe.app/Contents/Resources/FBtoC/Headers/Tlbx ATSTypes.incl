@@ -1,0 +1,1 @@
+// part of ATSTypes.h#if ndef _DEFINEDINCARBON#define ATSFontRef as UInt32#endif// _DEFINEDINCARBON

@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>FBtoC User Guide : TBAlias</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;TBAlias</font>
+<hr>
+
+TBAlias is ignored by FBtoC.
+
+<p>The TBalias statement in FB allows old Toolbox names to be kept and applied to new functions when introduced by Apple. 
+The idea must have been to save programmers a minute or two updating function names, a task otherwise tiresomely required every few years. 
+The TBalias feature is now Considered Harmful and will not be supported by FBtoC. 
+You may have already upgraded your project to use the correct (Apple's official) Toolbox names. 
+If not, be prepared for FBtoC error messages indicating dodgy names:
+
+<pre class="logerror">... Unknown statement in line 6 of untitled
+6: RmveResource( resH )
+                ^</pre>
+<p>The simple, recommended, and only, workaround is to replace each occurrence in your code of the fossil RmveResource by RemoveResource.
+<pre>
+
+</pre>
+<p>Some Toolbox functions that were commonly aliased in old FB code are listed below:
+
+<table>
+<tr><td width="150"><b>FB, FBtoC and C</b></td><td><b>FB-only alias</b></td></tr>
+<tr><td>GetIntlResource</td><td>IUGetIntl</td></tr>
+<tr><td>MemError</td><td>MemErr</td></tr>
+<tr><td>DisposeHandle</td><td>DisposHandle</td></tr>
+<tr><td>DisposePtr</td><td>DisposPtr</td></tr>
+<tr><td>AppendResMenu</td><td>AddResMenu</td></tr>
+<tr><td>GetMenuHandle</td><td>GetMHandle</td></tr>
+<tr><td>CountMenuItems</td><td>CountMItems</td></tr>
+<tr><td>EnableMenuItem</td><td>EnableItem</td></tr>
+<tr><td>DisableMenuItem</td><td>DisableItem</td></tr>
+<tr><td>GetControlValue</td><td>GetCtlValue</td></tr>
+<tr><td>GetControlReference</td><td>GetCRefcon</td></tr>
+<tr><td>PBReadSync</td><td>PBRead</td></tr>
+<tr><td>PBCatMoveSync</td><td>CatMove</td></tr>
+<tr><td>PBHCreateSync</td><td>HCreate</td></tr>
+<tr><td>PBFlushVolSync</td><td>FlushVol</td></tr>
+<tr><td>AEPutParamDesc</td><td>AEPutKeyDesc</td></tr>
+<tr><td>SecondsToDate</td><td>Secs2Date</td></tr>
+<tr><td>LongSecondsToDate</td><td>LongSecs2Date</td></tr>
+<tr><td>RemoveResource</td><td>RmveResource</td></tr>
+</table>
+
+</body>
+</html>
+

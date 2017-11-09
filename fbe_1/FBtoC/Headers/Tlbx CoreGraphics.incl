@@ -1,0 +1,1 @@
+include "CoreGraphics:CoreGraphics.incl"// doesn't belong - included for compatibility with FB Tlbx CoreGraphics.inclinclude "CoreGraphics:Quickdraw.incl"

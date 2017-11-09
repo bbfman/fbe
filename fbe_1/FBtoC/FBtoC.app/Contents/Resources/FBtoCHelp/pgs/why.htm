@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>FBtoC User Guide : Why translate to C when I code in BASIC?</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;Why translate to C when I code in BASIC?</font>
+<hr>
+
+<ul>
+<li>The compiler has more powerful optimizations for speed than the old FB Compiler.app. 
+<li>Native Intel code runs &asymp;3 times faster (or more)  than PPC code under Rosetta.
+<li>Framework access is much simpler than in FB (see later).
+<li>FBtoC can automatically copy specified files into the app's resources (see later).
+<li>Apple's modern development tools work on apps built by FBtoC. Tools include the Xcode debugger, the performance analyser Shark and (in 10.5) Instruments.
+<li>An app (window 1 : print "Hello, world!" : do HandleEvents : until gFBQuit) can be built as small as 36 KB (or 72K with the default icon).
+<li>On an Intel Mac, crash reports are interpretable, unlike those of a legacy FB app.
+<li>Unlike FB, there is no 32 KB limit on local function variables.
+</ul>
+
+</body>
+</html>
+
+
+

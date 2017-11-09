@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>FBtoC User Guide : open</title>
+<link rel="stylesheet" type="text/css" href="../../sty/userguide.css">
+</head>
+<body>
+<img src="../../gfx/FBtoC.png" align="top">
+<font class="header">&nbsp;open</font>
+<hr>
+
+<p>open "method[Fork]", fileID, <font color="red">path$</font>|@FSSpec[, [recLen][, <font color="red">refNum%</font>[, <font color="red">dirID&</font>]]]
+
+<p>FBtoC's OPEN statement does NOT support file paths or the refNum% and dirID& parms of FB. 
+Paths and refNums/dirIDs can be converted easily into an FSSpec. 
+Like FB, FBtoC supports FSSpecs.
+
+<pre>
+
+</pre>
+<p><font class="SubHead1">FBtoC enhancement:</font>
+
+<br>FBtoC's open statement supports FSRefs and CFURLRefs.
+<p>Examples (ref is an FSRef, url is a CFURLRef):
+
+<pre class="codeexample">
+<b>#if def</b> _FBtoC	// FBtoC only
+
+<b>open</b> "I", 1, @ref
+
+<b>open</b> "I", 2, @url
+
+// an FSRef cannot be created for a non-existent 
+// file, so we must supply a filename
+<b>open</b> "O", 3, fileName$, @parentFolderRef 
+
+<b>open</b> "O", 4, @url
+
+<b>open</b> "A", 5, @ref
+
+<b>open</b> "A", 6, @url
+
+<b>open</b> "R", 7, @ref
+
+<b>open</b> "R", 8, @url
+
+<b>#endif</b>
+
+</pre>
+
+
+</body>
+</html>
+

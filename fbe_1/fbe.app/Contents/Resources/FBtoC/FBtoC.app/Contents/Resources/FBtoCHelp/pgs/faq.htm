@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>FBtoC User Guide : FAQ</title>
+<link rel="stylesheet" type="text/css" href="../sty/userguide.css">
+</head>
+<body>
+<img src="../gfx/FBtoC.png" align="left">
+<font class="header">&nbsp;FAQ</font>
+<hr>
+
+
+<p><li><b>What should I do with all those build_temp folders created by FBtoC?</b>
+<br>Command-delete works well for me. But why delete them so soon? If you have the 'Use precompiled header' checkbox ON, build_temp folders contain, er, the precompiled header. It's that huge file FBtoC_Prefix_clang.h.gch, used by the compiler as a cache. 
+
+<pre>
+
+</pre>
+<p><li><b>Why do I get warnings like this from the compiler?</b>
+<pre class="logwarning">/Volumes/HD2/FBtoC/build_temp/Blah.c: In function 'SendHandleMessageToLog':
+/Volumes/HD2/FBtoC/build_temp/Blah.c:3027: warning: passing argument 1 of 'BlockMoveData' makes pointer from integer without a cast
+/Volumes/HD2/FBtoC/build_temp/Blah.c: In function 'FBToCResourcesCopy':
+/Volumes/HD2/FBtoC/build_temp/Blah.c:3955: warning: passing argument 4 of 'GetResInfo' from incompatible pointer type</pre>
+FB is weakly typed; it makes little distinction between pointers and other 4-byte vars such as longs. C is more strongly typed, and the compiler complains when the wrong 4-byte type is used. These warnings are nearly always harmless and can nearly always be ignored. 
+These warnings can be eliminated by typing variables correctly and not relying on FB's weak typing. Cleaning up the compiler warnings helps identify (often there is a long list of warnings) any warnings that DO need to be addressed, so cleaning up even harmless warnings can be beneficial.
+
+<pre>
+
+</pre>
+<p><li><b>I know my compilation failed because it says so at the end, but I can't find the compiler error among the horrible spew of warnings.</b>
+<br>Suppress the spew by typing this into 'More compiler options' in FBtoC's settings dialog:
+<br>-w
+
+<pre>
+
+</pre>
+<p><li><b>Namespace collision</b>
+<br>Q: For some reason there is a problem with FN InstallControlEventHandler for the attached demo.  The compiler keeps complaining that there are supposed to be six parameters and it only has one.  I've looked at the C code and there are six parameters.  I have no idea why it won't take it.
+
+<p>A: InstallControlEventHandler is the name of macro in Carbon. You have a function in your code with the same name. You'll have to rename it, for instance to MyInstallControlEventHandler.
+
+<pre>
+
+</pre>
+<p><li><b>WTF does "void value not ignored as it ought to be" mean?</b>
+<pre class="logwarning">/Volumes/HD2/FBtoC/Test Files/build_temp/Demo.c: In function 'main':</pre>
+<pre class="logerror">/Volumes/HD2/FBtoC/Test Files/build_temp/Demo.c:1680: error: void value not ignored as it ought to be</pre>
+
+<p>You are trying to get a return value from a pure procedure. Here's an example from CoreGraphics.
+<pre class="codeexample">
+<b>include</b> "Tlbx CoreGraphics.incl"
+<b>dim as</b> CGImageRef myImage
+<b>dim</b> something
+
+// legal but pointless in FB; illegal in FBtoC
+something = <b>fn CGImageRelease</b>( myImage ) // <-- void value not ignored as it ought to be
+
+// this syntax avoids the error and is legal in both FB and FBtoC
+<b>fn CGImageRelease</b>( myImage ) 
+
+// illegal in FB; legal in FBtoC
+<b>call CGImageRelease</b>( myImage )
+<b>CGImageRelease</b>( myImage )
+</pre>
+
+<pre>
+
+</pre>
+<p><li><b>My program won't quit</b>
+<br>Change your event loop.
+
+<pre class="codeexample">
+<b>do</b>
+<b>HandleEvents</b>
+<b>until</b> 0 // never quits
+
+<b>do</b>
+<b>HandleEvents</b>
+<b>until</b> ( gFBQuit ) // ah, that's better
+</pre>
+
+<pre>
+
+</pre>
+<p><li><b>Compiling C code Independent of FBtoC (not recommended but possible)</b>
+<br>Is it possible to make minor changes to the C code in the "build_temp" folder using Xcode and then have FBtoC  run directly from the modified "build_temp" folder without going through the original FB code?
+
+<p>There's no official way, but this workaround isn't especially challenging.
+<p>[1] Turn on the 'Log UNIX commands' checkbox in FBtoC preferences settings.
+<p>[2] In FBtoC, open your project and wait until compilation finishes.
+<p>[3] Optionally edit the *.c files in the relevant build_temp folder.
+<p>[4] From your FBtoC Log window, copy the 3 consecutive blue lines beginning with cd, gcc, and touch. For example:
+<pre class="logunix">
+cd /Users/rp/Desktop/build_temp;
+gcc -I/FutureBasic/FBtoC/FBtoC_Preview1a117/build_goodies /Users/rp/Desktop/build_temp/untitled_1.c -fpascal-strings -framework Carbon -framework QuickTime -framework IOKit -o /Users/rp/Desktop/untitled\ 1.app/Contents/MacOS/untitled\ 1 -mdynamic-no-pic -trigraphs -Wall -Wno-trigraphs -Wno-sequence-point -Wno-multichar -Wno-deprecated-declarations -Wno-unused-label -Werror-implicit-function-declaration  -O0 -pipe -gused -Wl,-dead_strip 2>&1
+touch /Users/rp/Desktop/untitled\ 1.app
+</pre>
+
+<p>[5] Paste these lines into Terminal.app to replicate the compilation step of the FBtoC build.
+
+<pre>
+
+</pre>
+<p><li><b>FlushWindowBuffer with FBtoC</b>
+<br>Window flushing is very different in a Mach-O app (as produced by FBtoC) compared with a legacy CFM app (as produced by FBCompiler.app). A Mach-O app takes advantage of a Carbon optimization called "coalesced updates".
+
+<p>The special first parameters for FlushWindowBuffer (_FBAutoFlushOff, _FBAutoFlushOn and _AutoFlushPrint) are therefore neither defined nor needed in FBtoC.
+
+<p>Please change your code to:
+<pre class="codeexample">
+<b>#if ndef</b> _FBtoC
+<b>FlushWindowBuffer</b> _FBAutoFlushOff // FB sees this; FBtoC does not
+<b>#endif</b>
+</pre>
+
+<pre>
+
+</pre>
+<p><li><b>Why aren't all the error messages this good?</b>
+<pre class="logerror">... Not yet implemented by FBtoC in line 25 of Demo.bas: use #if/#else/#endif instead
+ 25:  compile long if 1
+                  ^</pre>
+No answer has been received for this FAQ.
+
+</body>
+</html>
+
+
+

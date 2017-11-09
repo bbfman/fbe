@@ -1,0 +1,1 @@
+// part of DictionaryServices.h#if ndef _DEFINEDINCARBON#define DCSDictionaryRef as pointer#endif// _DEFINEDINCARBON
